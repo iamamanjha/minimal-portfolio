@@ -19,6 +19,10 @@
 
   --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
 }
 
 *, *::before, *::after {
@@ -41,6 +45,21 @@ body {
   overflow-x: hidden;
   position: relative;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Focus states for a11y */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
 }
 
 /* Ambient Cursor Glow */
@@ -53,8 +72,9 @@ body {
   border-radius: 50%;
   pointer-events: none;
   background: radial-gradient(circle, rgba(56, 189, 248, 0.07) 0%, rgba(129, 140, 248, 0.02) 40%, transparent 70%);
-  transform: translate(-50%, -50%);
+  transform: translate3d(-50%, -50%, 0);
   z-index: 1;
+  will-change: transform;
 }
 
 /* Header & Nav */
@@ -88,7 +108,7 @@ body {
   height: 40px;
   width: 40px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   border: 1px solid var(--border-subtle);
   transition: transform var(--transition-fast), border-color var(--transition-fast);
 }
@@ -102,7 +122,7 @@ body {
   display: none;
   width: 40px;
   height: 40px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2));
   border: 1px solid var(--border-subtle);
   align-items: center;
@@ -136,11 +156,11 @@ body {
   color: var(--text-main);
   border: 1px solid var(--border-subtle);
   padding: 0.45rem 1rem;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 0.85rem;
   font-weight: 600;
   text-decoration: none;
-  transition: all var(--transition-fast);
+  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
 }
 
 .nav-cta:hover {
@@ -202,7 +222,6 @@ main {
   height: 165px;
   border-radius: 16px;
   object-fit: cover;
-  display: block;
   background: #11151d;
 }
 
@@ -293,11 +312,14 @@ main {
   font-size: 0.88rem;
   font-weight: 600;
   padding: 0.65rem 1.25rem;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   text-decoration: none;
   cursor: pointer;
   border: 1px solid transparent;
-  transition: all var(--transition-fast);
+  font-family: inherit;
+  transition: transform var(--transition-fast), background var(--transition-fast),
+              box-shadow var(--transition-fast), border-color var(--transition-fast),
+              color var(--transition-fast);
 }
 
 .btn-solid {
@@ -339,7 +361,7 @@ main {
   padding: 1.6rem 2rem;
   background: rgba(18, 22, 31, 0.45);
   border: 1px solid var(--border-subtle);
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   margin: 1rem 0 4.5rem;
 }
 
@@ -422,7 +444,8 @@ main {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all var(--transition-fast);
+  transition: background var(--transition-fast), border-color var(--transition-fast),
+              color var(--transition-fast);
 }
 
 .scroll-arrow-btn:hover {
@@ -442,13 +465,14 @@ main {
   user-select: none;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(56, 189, 248, 0.35) rgba(18, 22, 31, 0.6);
 }
 
 .projects-scroll-wrapper:active {
   cursor: grabbing;
 }
 
-/* Custom Horizontal Scrollbar */
 .projects-scroll-wrapper::-webkit-scrollbar {
   height: 8px;
 }
@@ -468,23 +492,18 @@ main {
   background: rgba(56, 189, 248, 0.55);
 }
 
-/* Firefox scrollbar support */
-.projects-scroll-wrapper {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(56, 189, 248, 0.35) rgba(18, 22, 31, 0.6);
-}
-
 /* Project Card In Scroll Track */
 .scroll-project-card {
   flex: 0 0 340px;
   scroll-snap-align: start;
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   padding: 1.75rem;
   display: flex;
   flex-direction: column;
-  transition: transform var(--transition-smooth), border-color var(--transition-smooth), background var(--transition-smooth);
+  transition: transform var(--transition-smooth), border-color var(--transition-smooth),
+              background var(--transition-smooth);
 }
 
 .scroll-project-card:hover {
@@ -504,18 +523,18 @@ main {
   font-size: 0.72rem;
   font-weight: 600;
   padding: 0.2rem 0.55rem;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
-.pill-cyan { background: rgba(56, 189, 248, 0.12); color: #38bdf8; }
+.pill-cyan   { background: rgba(56, 189, 248, 0.12);  color: #38bdf8; }
 .pill-violet { background: rgba(129, 140, 248, 0.12); color: #a5b4fc; }
-.pill-blue { background: rgba(59, 130, 246, 0.12); color: #60a5fa; }
-.pill-amber { background: rgba(245, 158, 11, 0.12); color: #fbbf24; }
-.pill-rose { background: rgba(244, 63, 94, 0.12); color: #fb7185; }
-.pill-teal { background: rgba(20, 184, 166, 0.12); color: #2dd4bf; }
-.pill-gray { background: rgba(156, 163, 175, 0.12); color: #d1d5db; }
+.pill-blue   { background: rgba(59, 130, 246, 0.12);  color: #60a5fa; }
+.pill-amber  { background: rgba(245, 158, 11, 0.12);  color: #fbbf24; }
+.pill-rose   { background: rgba(244, 63, 94, 0.12);   color: #fb7185; }
+.pill-teal   { background: rgba(20, 184, 166, 0.12);  color: #2dd4bf; }
+.pill-gray   { background: rgba(156, 163, 175, 0.12); color: #d1d5db; }
 
 .project-id {
   font-family: var(--font-mono);
@@ -574,7 +593,7 @@ main {
 .toolkit-panel {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   padding: 1.6rem;
   display: flex;
   flex-direction: column;
@@ -609,8 +628,9 @@ main {
   border: 1px solid var(--border-subtle);
   color: var(--text-main);
   padding: 0.35rem 0.75rem;
-  border-radius: 6px;
-  transition: all var(--transition-fast);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--transition-fast), background var(--transition-fast),
+              transform var(--transition-fast);
 }
 
 .chip:hover {
@@ -628,7 +648,7 @@ main {
 .contact-card {
   background: linear-gradient(135deg, rgba(18, 22, 31, 0.85), rgba(24, 30, 43, 0.55));
   border: 1px solid var(--border-subtle);
-  border-radius: 18px;
+  border-radius: var(--radius-xl);
   padding: 3rem;
 }
 
@@ -664,7 +684,8 @@ main {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--border-subtle);
   text-decoration: none;
-  transition: all var(--transition-fast);
+  transition: background var(--transition-fast), border-color var(--transition-fast),
+              transform var(--transition-fast);
 }
 
 .direct-card:hover {
@@ -719,6 +740,8 @@ main {
   align-items: center;
   font-size: 0.85rem;
   color: var(--text-dim);
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .footer-name {
@@ -745,14 +768,14 @@ main {
   background: #ffffff;
   color: #000000;
   padding: 0.65rem 1.25rem;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 0.85rem;
   font-weight: 600;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
   opacity: 0;
   transform: translateY(10px);
   pointer-events: none;
-  transition: all 0.25s ease;
+  transition: opacity 0.25s ease, transform 0.25s ease;
   z-index: 1000;
 }
 
@@ -790,5 +813,23 @@ main {
   }
   .scroll-controls {
     align-self: flex-end;
+  }
+  .scroll-project-card {
+    flex: 0 0 300px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .spotlight {
+    display: none;
   }
 }
