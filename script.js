@@ -11,6 +11,8 @@
     const spotlight = document.getElementById('spotlight');
     const copyBtn = document.getElementById('copy-email-btn');
     const toast = document.getElementById('toast');
+    const year = document.getElementById('current-year');
+    if (year) year.textContent = String(new Date().getFullYear());
     const track = document.getElementById('projects-track');
     const prevBtn = document.getElementById('scroll-prev');
     const nextBtn = document.getElementById('scroll-next');
