@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://iamamanjha.github.io/minimal-portfolio/sitemap.xml
